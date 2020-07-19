@@ -10,7 +10,7 @@ The pytorch implementation for "Siamese NestedUNet Networks for Change Detection
 - torchvision 0.2.1+
 
 
-    # other packages needed
+    \# other packages needed
     pip install opencv-python tqdm tensorboardX sklearn
 
 ## Train from scratch
