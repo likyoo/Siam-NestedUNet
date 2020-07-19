@@ -123,11 +123,11 @@ def get_test_loaders(opt):
     logging.info('STARTING Dataloading')
 
 
-    val_loader = torch.utils.data.DataLoader(test_dataset,
+    test_loader = torch.utils.data.DataLoader(test_dataset,
                                              batch_size=opt.batch_size,
                                              shuffle=False,
                                              num_workers=opt.num_workers)
-    return val_loader
+    return test_loader
 
 
 def get_criterion(opt):
