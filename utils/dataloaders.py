@@ -3,6 +3,8 @@ import random
 import cv2
 import numpy as np
 import torch.utils.data as data
+from PIL import Image
+from utils import transforms as tr
 
 
 
@@ -74,33 +76,17 @@ def cdd_loader(img_path, label_path, aug):
     dir = img_path[0]
     name = img_path[1]
 
-    bands_date1 = []
-    bands_info1 = cv2.split(cv2.imread(dir + 'A/' + name))
-    for i in range(len(bands_info1)):
-        bands_date1.append(bands_info1[i])
-
-    bands_date2 = []
-    bands_info2 = cv2.split(cv2.imread(dir + 'B/' + name))
-    for i in range(len(bands_info2)):
-        bands_date2.append(bands_info2[i])
-
-    out_img = np.stack((bands_date1, bands_date2))
-    out_lbl = label_loader(label_path)
+    img1 = Image.open(dir + 'A/' + name)
+    img2 = Image.open(dir + 'B/' + name)
+    label = Image.open(label_path)
+    sample = {'image': (img1, img2), 'label': label}
 
     if aug:
-        rot_deg = random.randint(0, 3)
-        out_img = np.rot90(out_img, rot_deg, [2, 3]).copy()
-        out_lbl = np.rot90(out_lbl, rot_deg, [0, 1]).copy()
+        sample = tr.train_transforms(sample)
+    else:
+        sample = tr.test_transforms(sample)
 
-        if random.random() > 0.5:
-            out_img = np.flip(out_img, axis=2).copy()
-            out_lbl = np.flip(out_lbl, axis=0).copy()
-
-        if random.random() > 0.5:
-            out_img = np.flip(out_img, axis=3).copy()
-            out_lbl = np.flip(out_lbl, axis=1).copy()
-
-    return out_img[0], out_img[1], out_lbl
+    return sample['image'][0], sample['image'][1], sample['label']
 
 
 class CDDloader(data.Dataset):
