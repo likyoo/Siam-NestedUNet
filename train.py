@@ -168,7 +168,6 @@ for epoch in range(opt.epochs):
             # clear batch variables from memory
             del batch_img1, batch_img2, labels
 
-        writer.close()
         logging.info("EPOCH VALIDATION METRICS"+str(mean_val_metrics))
 
         """
@@ -211,5 +210,5 @@ for epoch in range(opt.epochs):
         logging.info('until now, the best recall is epoch:' + str(best_recall[0]))
 
         print('An epoch finished.')
-
+writer.close()
 print('Done!')
