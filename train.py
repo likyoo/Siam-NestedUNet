@@ -59,7 +59,7 @@ scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=8, gamma=0.5)
 """
 best_metrics = {'cd_f1scores': -1, 'cd_recalls': -1, 'cd_precisions': -1}
 logging.info('STARTING training')
-best_pre = best_recall = best_f1 = [-1, -1]
+best_pre, best_recall, best_f1 = [-1, -1], [-1, -1], [-1, -1]
 total_step = -1
 
 for epoch in range(opt.epochs):
@@ -74,7 +74,7 @@ for epoch in range(opt.epochs):
     batch_iter = 0
     tbar = tqdm(train_loader)
     for batch_img1, batch_img2, labels in tbar:
-        tbar.set_description("batch {} info ".format(epoch) + str(batch_iter) + " - " + str(batch_iter+opt.batch_size))
+        tbar.set_description("epoch {} info ".format(epoch) + str(batch_iter) + " - " + str(batch_iter+opt.batch_size))
         batch_iter = batch_iter+opt.batch_size
         total_step += 1
         # Set variables for training
@@ -122,7 +122,7 @@ for epoch in range(opt.epochs):
         del batch_img1, batch_img2, labels
 
     scheduler.step()
-    logging.info("EPOCH TRAIN METRICS" + str(mean_train_metrics))
+    logging.info("EPOCH {} TRAIN METRICS".format(epoch) + str(mean_train_metrics))
 
     """
     Begin Validation
@@ -168,7 +168,7 @@ for epoch in range(opt.epochs):
             # clear batch variables from memory
             del batch_img1, batch_img2, labels
 
-        logging.info("EPOCH VALIDATION METRICS"+str(mean_val_metrics))
+        logging.info("EPOCH {} VALIDATION METRICS".format(epoch)+str(mean_val_metrics))
 
         """
         Store the weights of good epochs based on validation results
@@ -193,7 +193,6 @@ for epoch in range(opt.epochs):
 
             # comet.log_asset(upload_metadata_file_path)
             best_metrics = mean_val_metrics
-
 
         if mean_val_metrics['cd_f1scores'] > best_f1[1]:
             best_f1[1] = mean_val_metrics['cd_f1scores']
