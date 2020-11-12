@@ -25,7 +25,7 @@ pip install opencv-python tqdm tensorboardX sklearn
 
 ## Evaluate model performance
 
-    python eval_metrics.py
+    coming soon ...
 
 ## References
 
