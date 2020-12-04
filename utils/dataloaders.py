@@ -92,7 +92,6 @@ def cdd_loader(img_path, label_path, aug):
 class CDDloader(data.Dataset):
 
     def __init__(self, full_load, aug=False):
-        random.shuffle(full_load)
 
         self.full_load = full_load
         self.loader = cdd_loader
