@@ -31,6 +31,14 @@ pip install opencv-python tqdm tensorboardX sklearn
 
     python visualization.py
 
+
+
+------
+
+The original version of "Siam-NestedUNet" is archived in Tag v1.1 .
+
+
+
 ## References
 
 Appreciate the work from the following repository:
