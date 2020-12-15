@@ -27,7 +27,7 @@ pip install opencv-python tqdm tensorboardX sklearn
 
     python eval.py
 
-## visualization
+## Visualization
 
     python visualization.py
 
