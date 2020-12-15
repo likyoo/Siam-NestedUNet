@@ -207,6 +207,11 @@ class FixedResize(object):
         return {'image': (img1, img2),
                 'label': mask}
 
+
+'''
+We don't use Normalize here, because it will bring negative effects.
+the mask of ground truth is converted to [0,1] in ToTensor() function.
+'''
 train_transforms = transforms.Compose([
             RandomHorizontalFlip(),
             RandomVerticalFlip(),

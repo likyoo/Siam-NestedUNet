@@ -1,5 +1,5 @@
-# Siam-NestedUNet
-The pytorch implementation for "Siamese NestedUNet for Change Detection of High Resolution Satellite Images"
+# SNUNet-CD
+The pytorch implementation for "SNUNet-CD: A Densely  Connected Siamese Network for Change Detection of VHR Images " (coming soon)
 
 ## Requirements
 
@@ -25,7 +25,11 @@ pip install opencv-python tqdm tensorboardX sklearn
 
 ## Evaluate model performance
 
-    coming soon ...
+    python eval.py
+
+## visualization
+
+    python visualization.py
 
 ## References
 

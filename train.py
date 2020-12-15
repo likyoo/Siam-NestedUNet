@@ -1,8 +1,5 @@
 import datetime
 import torch
-import torch.utils.data
-import torch.optim as optim
-import torch.autograd as autograd
 from sklearn.metrics import precision_recall_fscore_support as prfs
 from utils.parser import get_parser_with_args
 from utils.helpers import (get_loaders, get_criterion,
@@ -14,6 +11,8 @@ import logging
 import json
 from tensorboardX import SummaryWriter
 from tqdm import tqdm
+import random
+import numpy as np
 
 
 """
@@ -35,10 +34,17 @@ Set up environment: define paths, download data, and set device
 dev = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 logging.info('GPU AVAILABLE? ' + str(torch.cuda.is_available()))
 
-if torch.cuda.is_available():
-    torch.cuda.manual_seed(108)
-else:
-    torch.manual_seed(108)
+def seed_torch(seed):
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    # torch.cuda.manual_seed_all(seed) # if you are using multi-GPU.
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+
+seed_torch(seed=777)
 
 
 train_loader, val_loader = get_loaders(opt)
@@ -50,8 +56,8 @@ logging.info('LOADING Model')
 model = load_model(opt, dev)
 
 criterion = get_criterion(opt)
-# optimizer = optim.AdamW(model.parameters(), lr=opt.learning_rate)
-optimizer = AdamW(model.parameters(), lr=opt.learning_rate)
+# optimizer = torch.optim.AdamW(model.parameters(), lr=opt.learning_rate)
+optimizer = AdamW(model.parameters(), lr=opt.learning_rate)     # Be careful when you adjust learning rate, you can refer to the linear scaling rule
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=8, gamma=0.5)
 
 """
@@ -59,7 +65,6 @@ scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=8, gamma=0.5)
 """
 best_metrics = {'cd_f1scores': -1, 'cd_recalls': -1, 'cd_precisions': -1}
 logging.info('STARTING training')
-best_pre, best_recall, best_f1 = [-1, -1], [-1, -1], [-1, -1]
 total_step = -1
 
 for epoch in range(opt.epochs):
@@ -78,9 +83,9 @@ for epoch in range(opt.epochs):
         batch_iter = batch_iter+opt.batch_size
         total_step += 1
         # Set variables for training
-        batch_img1 = autograd.Variable(batch_img1).float().to(dev)
-        batch_img2 = autograd.Variable(batch_img2).float().to(dev)
-        labels = autograd.Variable(labels).long().to(dev)
+        batch_img1 = batch_img1.float().to(dev)
+        batch_img2 = batch_img2.float().to(dev)
+        labels = labels.long().to(dev)
 
         # Zero the gradient
         optimizer.zero_grad()
@@ -131,9 +136,9 @@ for epoch in range(opt.epochs):
     with torch.no_grad():
         for batch_img1, batch_img2, labels in val_loader:
             # Set variables for training
-            batch_img1 = autograd.Variable(batch_img1).float().to(dev)
-            batch_img2 = autograd.Variable(batch_img2).float().to(dev)
-            labels = autograd.Variable(labels).long().to(dev)
+            batch_img1 = batch_img1.float().to(dev)
+            batch_img2 = batch_img2.float().to(dev)
+            labels = labels.long().to(dev)
 
             # Get predictions and calculate loss
             cd_preds = model(batch_img1, batch_img2)
@@ -183,7 +188,7 @@ for epoch in range(opt.epochs):
             logging.info('updata the model')
             metadata['validation_metrics'] = mean_val_metrics
 
-            # Save
+            # Save model and log
             if not os.path.exists('./tmp'):
                 os.mkdir('./tmp')
             with open('./tmp/metadata_epoch_' + str(epoch) + '.json', 'w') as fout:
@@ -194,20 +199,7 @@ for epoch in range(opt.epochs):
             # comet.log_asset(upload_metadata_file_path)
             best_metrics = mean_val_metrics
 
-        if mean_val_metrics['cd_f1scores'] > best_f1[1]:
-            best_f1[1] = mean_val_metrics['cd_f1scores']
-            best_f1[0] = epoch
-        if mean_val_metrics['cd_precisions'] > best_pre[1]:
-            best_pre[1] = mean_val_metrics['cd_precisions']
-            best_pre[0] = epoch
-        if mean_val_metrics['cd_recalls'] > best_recall[1]:
-            best_recall[1] = mean_val_metrics['cd_recalls']
-            best_recall[0] = epoch
-
-        logging.info('until now, the best F1-Score is epoch:' + str(best_f1[0]))
-        logging.info('until now, the best pre is epoch:' + str(best_pre[0]))
-        logging.info('until now, the best recall is epoch:' + str(best_recall[0]))
 
         print('An epoch finished.')
-writer.close()
+writer.close()  # close tensor board
 print('Done!')

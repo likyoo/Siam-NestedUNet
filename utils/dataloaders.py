@@ -1,19 +1,12 @@
 import os
-import random
-import cv2
-import numpy as np
 import torch.utils.data as data
 from PIL import Image
 from utils import transforms as tr
 
 
-
-def label_loader(label_path):
-    label = cv2.imread(label_path, 0) / 255   # flag=0:  Return a grayscale image.
-    return label
-
-
-
+'''
+Load all training and validation data paths
+'''
 def full_path_loader(data_dir):
     train_data = [i for i in os.listdir(data_dir + 'train/A/') if not
     i.startswith('.')]
@@ -51,6 +44,9 @@ def full_path_loader(data_dir):
 
     return train_dataset, val_dataset
 
+'''
+Load all testing data paths
+'''
 def full_test_loader(data_dir):
 
     test_data = [i for i in os.listdir(data_dir + 'test/A/') if not

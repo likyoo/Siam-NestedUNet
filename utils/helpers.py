@@ -6,7 +6,8 @@ import numpy as np
 from utils.dataloaders import (full_path_loader, full_test_loader, CDDloader)
 from utils.metrics import jaccard_loss, dice_loss
 from utils.losses import hybrid_loss
-from models.Models import NestedUNet_Diff, NestedUNet_Dif_Conc, NestedUNet_Conc
+from models.Models import Siam_NestedUNet_Conc, SNUNet_ECAM
+from models.siamunet_dif import SiamUnet_diff
 logging.basicConfig(level=logging.INFO)
 
 def initialize_metrics():
@@ -111,8 +112,10 @@ def get_loaders(opt):
                                              num_workers=opt.num_workers)
     return train_loader, val_loader
 
-def get_test_loaders(opt):
+def get_test_loaders(opt, batch_size=None):
 
+    if not batch_size:
+        batch_size = opt.batch_size
 
     logging.info('STARTING Dataset Creation')
 
@@ -124,7 +127,7 @@ def get_test_loaders(opt):
 
 
     test_loader = torch.utils.data.DataLoader(test_dataset,
-                                             batch_size=opt.batch_size,
+                                             batch_size=batch_size,
                                              shuffle=False,
                                              num_workers=opt.num_workers)
     return test_loader
@@ -168,7 +171,7 @@ def load_model(opt, device):
 
     """
     # device_ids = list(range(opt.num_gpus))
-    model = NestedUNet_Diff(opt.num_channel, 2).to(device)
+    model = SNUNet_ECAM(opt.num_channel, 2).to(device)
     # model = nn.DataParallel(model, device_ids=device_ids)
 
     return model
