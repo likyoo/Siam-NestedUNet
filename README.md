@@ -3,7 +3,7 @@ The pytorch implementation for "SNUNet-CD: A Densely  Connected Siamese Network 
 
 ## Requirements
 
-- Python 3.7
+- Python 3.6
 
 - Pytorch 1.4
 
