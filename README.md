@@ -5,9 +5,9 @@ The pytorch implementation for "SNUNet-CD: A Densely  Connected Siamese Network 
 
 - Python 3.7
 
-- Pytorch 1.0+
+- Pytorch 1.4
 
-- torchvision 0.2.1+
+- torchvision 0.5.0
 
 ```
 # other packages needed
