@@ -5,7 +5,6 @@ from utils.parser import get_parser_with_args
 from utils.helpers import (get_loaders, get_criterion,
                            load_model, initialize_metrics, get_mean_metrics,
                            set_metrics)
-from utils.adamW import AdamW
 import os
 import logging
 import json
@@ -56,8 +55,7 @@ logging.info('LOADING Model')
 model = load_model(opt, dev)
 
 criterion = get_criterion(opt)
-# optimizer = torch.optim.AdamW(model.parameters(), lr=opt.learning_rate)
-optimizer = AdamW(model.parameters(), lr=opt.learning_rate)     # Be careful when you adjust learning rate, you can refer to the linear scaling rule
+optimizer = torch.optim.AdamW(model.parameters(), lr=opt.learning_rate) # Be careful when you adjust learning rate, you can refer to the linear scaling rule
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=8, gamma=0.5)
 
 """
