@@ -35,7 +35,7 @@ pip install opencv-python tqdm tensorboardX sklearn
 
 The pre-trained models in CDD dataset are available. 
 
-[google driver](https://drive.google.com/drive/folders/1_aoUvMC8zWy4Pv7vU_BHu5yzzjgIsNXv?usp=sharing) | [baidu disk](https://pan.baidu.com/s/1i8LeBdMyR5jTWPTTB1XZUA) (w90j)
+[google drive](https://drive.google.com/drive/folders/1_aoUvMC8zWy4Pv7vU_BHu5yzzjgIsNXv?usp=sharing) | [baidu disk](https://pan.baidu.com/s/1i8LeBdMyR5jTWPTTB1XZUA) (w90j)
 
 
 
