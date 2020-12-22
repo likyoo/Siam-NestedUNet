@@ -4,6 +4,10 @@ from utils.helpers import get_test_loaders
 from tqdm import tqdm
 from sklearn.metrics import confusion_matrix
 
+# The Evaluation Methods in our paper are slightly different from this file.
+# In our paper, we use the evaluation methods in train.py. specifically, batch size is considered.
+# And the evaluation methods in this file usually produce higher numerical indicators.
+
 parser, metadata = get_parser_with_args()
 opt = parser.parse_args()
 
@@ -11,7 +15,7 @@ dev = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 test_loader = get_test_loaders(opt)
 
-path = 'weights/cam32_e99.pt'   # the path of the  model
+path = 'weights/sunet-32.pt'   # the path of the model
 model = torch.load(path)
 
 c_matrix = {'tn': 0, 'fp': 0, 'fn': 0, 'tp': 0}
@@ -25,7 +29,6 @@ with torch.no_grad():
         batch_img2 = batch_img2.float().to(dev)
         labels = labels.long().to(dev)
 
-        # Get predictions and calculate loss
         cd_preds = model(batch_img1, batch_img2)
         cd_preds = cd_preds[-1]
         _, cd_preds = torch.max(cd_preds, 1)
