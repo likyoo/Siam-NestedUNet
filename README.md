@@ -1,4 +1,6 @@
 # SNUNet-CD
+![author](https://img.shields.io/badge/author-likyoo-blueviolet.svg)![last commit](https://img.shields.io/github/last-commit/likyoo/Siam-NestedUNet.svg)![issues](https://img.shields.io/github/issues/likyoo/Siam-NestedUNet.svg)![stars](https://img.shields.io/github/stars/likyoo/Siam-NestedUNet.svg)![forks](https://img.shields.io/github/forks/likyoo/Siam-NestedUNet.svg)![license](https://img.shields.io/github/license/likyoo/Siam-NestedUNet.svg)
+
 The pytorch implementation for "SNUNet-CD: A Densely  Connected Siamese Network for Change Detection of VHR Images ". The paper has been received by Geoscience and Remote Sensing Letters. (coming soon)
 
 Our conference version "[Siamese NestedUNet Networks for Change Detection of High Resolution Satellite Image](https://dl.acm.org/doi/abs/10.1145/3437802.3437810)" is published on CCRIS 2020: *2020 International Conference on Control, Robotics and Intelligent System*. Its implementation (Siam-NestedUNet) is archived in [Tag v1.1](https://github.com/likyoo/Siam-NestedUNet/tree/v1.1) .
