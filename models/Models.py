@@ -102,9 +102,6 @@ class SNUNet_ECAM(nn.Module):
 
         self.ca = ChannelAttention(filters[0] * 4, ratio=16)
         self.ca1 = ChannelAttention(filters[0], ratio=16 // 4)
-        self.ca2 = ChannelAttention(filters[0], ratio=16 // 4)
-        self.ca3 = ChannelAttention(filters[0], ratio=16 // 4)
-        self.ca4 = ChannelAttention(filters[0], ratio=16 // 4)
 
         self.conv_final = nn.Conv2d(filters[0] * 4, out_ch, kernel_size=1)
 
