@@ -93,7 +93,9 @@ Kaiyu Li: likyoo@sdust.edu.cn
 
 ## References
 
-Appreciate the work from the following repository:
+Appreciate the work from the following repositories:
 
 - [granularai / chip_segmentation_fabric](https://github.com/granularai/chip_segmentation_fabric)
+- [wenhwu/awesome-remote-sensing-change-detection](https://github.com/wenhwu/awesome-remote-sensing-change-detection)
+- [luuuyi/CBAM.PyTorch](https://github.com/luuuyi/CBAM.PyTorch)
 
