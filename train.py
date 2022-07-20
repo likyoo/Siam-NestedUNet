@@ -107,13 +107,14 @@ for epoch in range(opt.epochs):
         cd_train_report = prfs(labels.data.cpu().numpy().flatten(),
                                cd_preds.data.cpu().numpy().flatten(),
                                average='binary',
+                               zero_division=0,
                                pos_label=1)
 
         train_metrics = set_metrics(train_metrics,
                                     cd_loss,
                                     cd_corrects,
                                     cd_train_report,
-                                    scheduler.get_lr())
+                                    scheduler.get_last_lr())
 
         # log the batch mean metrics
         mean_train_metrics = get_mean_metrics(train_metrics)
@@ -154,13 +155,14 @@ for epoch in range(opt.epochs):
             cd_val_report = prfs(labels.data.cpu().numpy().flatten(),
                                  cd_preds.data.cpu().numpy().flatten(),
                                  average='binary',
+                                 zero_division=0,
                                  pos_label=1)
 
             val_metrics = set_metrics(val_metrics,
                                       cd_loss,
                                       cd_corrects,
                                       cd_val_report,
-                                      scheduler.get_lr())
+                                      scheduler.get_last_lr())
 
             # log the batch mean metrics
             mean_val_metrics = get_mean_metrics(val_metrics)
