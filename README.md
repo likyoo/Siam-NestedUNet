@@ -8,6 +8,7 @@
 ![SNUNet](img/SNUNet.png)
 
 
+### News: :gift::gift::gift: SNUNet is supported in [OpenCD](https://github.com/likyoo/open-cd/) and gets better results !!! You can find something [here](https://github.com/likyoo/open-cd/tree/main/configs/snunet). Enjoy it ~ :yum::yum::yum:
 
 The pytorch implementation for "[SNUNet-CD: A Densely  Connected Siamese Network for Change Detection of VHR Images](https://ieeexplore.ieee.org/document/9355573) ". The paper is published on IEEE Geoscience and Remote Sensing Letters. 
 
